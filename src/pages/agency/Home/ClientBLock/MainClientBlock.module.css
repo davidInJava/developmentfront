@@ -1,0 +1,64 @@
+.container {
+  padding: 20px;
+  
+}
+
+.searchBlock {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+  align-items: center;
+}
+.searchInput {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 320px; /* ограниченная ширина, не растягивать по всей ширине */
+}
+
+.searchInput.wide { width: 420px }
+
+.searchSelect {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.searchButton {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #0b5fff;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.searchButton:hover {
+  background-color: #084ed0;
+}
+
+.resultsBlock {
+  max-height: 400px; 
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+}
+
+.topRow { display:flex; gap:12px; align-items:center }
+.addButton { margin-left:auto; padding:8px 14px; border-radius:8px; background:#06a3ff; color:white; border:none; cursor:pointer }
+.addButton:hover { background:#0588db }
+
+.resultItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.resultItem:last-child {
+  border-bottom: none;
+}

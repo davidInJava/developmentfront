@@ -12,6 +12,7 @@ import {
   Radio,
   TextField,
 } from "@mui/material";
+import API_ROUTES from "../../../config";
 
 export const AgencyRegister: React.FC = () => {
   const [form, setForm] = useState({
@@ -33,16 +34,54 @@ export const AgencyRegister: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Клиентская валидация
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      alert("Введите корректный email");
+      return;
+    }
+
+    if (typeof form.password !== "string" || form.password.length < 6) {
+      alert("Пароль должен быть не короче 6 символов");
+      return;
+    }
+
+    if (!form.firstName.trim()) {
+      alert("Укажите имя");
+      return;
+    }
+
+    if (!form.lastName.trim()) {
+      alert("Укажите фамилию");
+      return;
+    }
+
+    const allowedRoles = ["CITIZEN", "AGENCY_OPERATOR", "ADMIN"];
+    if (!allowedRoles.includes(form.role)) {
+      alert("Выберите корректную роль");
+      return;
+    }
+
+    if (showSecret && !form.secretKey.trim()) {
+      alert("Требуется секретный ключ для выбранной роли");
+      return;
+    }
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/auth/register/",
+        `${API_ROUTES.BASE_URL}auth/register/`,
         form
       );
 
       const token = data?.accessToken;
+      const user = data?.user;
+
       if (token) {
         localStorage.setItem("jwtAgency", token);
+      }
+
+      if (user) {
+        localStorage.setItem("userAgency", JSON.stringify(user));
       }
 
       alert("Аккаунт создан!");

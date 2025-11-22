@@ -20,7 +20,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const isOnLoginOrRegister =
     location.pathname.endsWith("/login") ||
     location.pathname.endsWith("/register");
-
   if (!token) {
     if (!isOnLoginOrRegister) {
       return (
@@ -32,5 +31,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     }
     return <>{children}</>;
   }
+
+ 
+
   return <>{children}</>;
 };
