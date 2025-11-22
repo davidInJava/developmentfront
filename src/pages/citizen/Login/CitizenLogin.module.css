@@ -1,0 +1,43 @@
+.container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f9ff;
+}
+.card {
+  width: 360px;
+  padding: 26px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(10, 20, 40, 0.06);
+}
+.title {
+  margin: 0 0 10px 0;
+  color: #0f172a;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e6eef8;
+}
+.button {
+  padding: 10px;
+  border-radius: 8px;
+  background: #0b5fff;
+  color: white;
+  border: none;
+}
+.meta {
+  margin-top: 10px;
+  font-size: 13px;
+}
+.link {
+  color: #0b5fff;
+  text-decoration: none;
+}

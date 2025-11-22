@@ -1,0 +1,8 @@
+.container { min-height: calc(100vh - 80px); display:flex; align-items:center; justify-content:center; background: linear-gradient(180deg,#fff,#f7fbff) }
+.card { width:420px; padding:26px; background:white; border-radius:12px; box-shadow:0 12px 32px rgba(10,20,40,0.06) }
+.title { margin:0 0 10px 0 }
+.form { display:flex; flex-direction:column; gap:10px }
+.input { padding:10px; border-radius:8px; border:1px solid #e6eef8 }
+.button { padding:10px; border-radius:8px; background:#0891b2; color:white; border:none }
+.meta { margin-top:10px }
+.link { color:#075985; text-decoration:none }

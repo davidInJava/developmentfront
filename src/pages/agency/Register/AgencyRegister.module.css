@@ -1,0 +1,20 @@
+.container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f9ff;
+}
+.card {
+  width: 420px;
+  padding: 26px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(10, 20, 40, 0.06);
+}
+.title { margin: 0 0 12px 0; font-size: 20px; color: #0b1220; }
+.form { display:flex; flex-direction: column; gap: 10px; }
+.input { padding: 10px 12px; border-radius: 8px; border:1px solid #e6eef8; }
+.button { padding: 10px; border-radius: 8px; background:#0b5fff; color:white; border:none; cursor:pointer }
+.meta { margin-top:10px; font-size:13px; }
+.link { color:#075985; text-decoration:none }

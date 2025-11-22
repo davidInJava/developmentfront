@@ -1,0 +1,26 @@
+.rootVars {
+  --primary: #0b5fff;
+  --muted: #475569;
+  --card-bg: #ffffff;
+}
+.primaryButton {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.secondaryButton {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid #e6eef8;
+  text-decoration: none;
+}
+.mutedLink { color: var(--primary); text-decoration: none }
