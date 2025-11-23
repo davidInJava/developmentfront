@@ -85,7 +85,7 @@ const ClientRequests: React.FC = () => {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         }
       );
-      fetchRequests(); // обновить список
+      fetchRequests(); 
     } catch (err: any) {
       console.error(err);
       alert("Ошибка при отклонении запроса");
