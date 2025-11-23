@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./AddClientModal.module.css";
 import axios from "axios";
 import API_ROUTES from "../../config";
@@ -31,16 +31,23 @@ export const AddClientModal: React.FC<Props> = ({ onClose, onCreated }) => {
       apartment: "",
       postalCode: "",
     },
+    password: "",
   });
 
   const [loading, setLoading] = useState(false);
 
-  /** Общий обработчик полей */
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
+  /** ==== Блокировка скролла ==== */
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
 
+  /** Общий обработчик полей */
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
     if (name.startsWith("addr_")) {
       const key = name.replace("addr_", "");
       setForm((prev) => ({
@@ -49,7 +56,6 @@ export const AddClientModal: React.FC<Props> = ({ onClose, onCreated }) => {
       }));
       return;
     }
-
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -58,38 +64,33 @@ export const AddClientModal: React.FC<Props> = ({ onClose, onCreated }) => {
     if (!form.firstName.trim()) return "Укажите имя";
     if (!form.lastName.trim()) return "Укажите фамилию";
     if (!form.dateOfBirth.trim()) return "Укажите дату рождения";
-
-    // дата должна быть формата YYYY-MM-DD
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(form.dateOfBirth))
-      return "Дата рождения должна быть в формате YYYY-MM-DD";
-
-    if (form.email && !emailRegex.test(form.email))
-      return "Некорректный email";
-
+    if (!form.email.trim()) return "Укажите email";
+    if (!emailRegex.test(form.email)) return "Некорректный email";
+    if (!form.password || form.password.length < 6)
+      return "Пароль должен быть не короче 6 символов";
     return null;
   };
 
   /** Отправка формы */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const err = validate();
     if (err) {
       alert(err);
       return;
     }
-
     setLoading(true);
-
     try {
       const token = localStorage.getItem("jwtAgency");
+      const normalizedDate = form.dateOfBirth.split("T")[0];
 
       const payload: any = {
-        firstName: form.firstName,
-        lastName: form.lastName,
-        dateOfBirth: form.dateOfBirth,
+        firstName: form.firstName.trim(),
+        lastName: form.lastName.trim(),
+        dateOfBirth: normalizedDate,
         gender: form.gender,
         citizenshipStatus: form.citizenshipStatus,
+        password: form.password, // обязательно
       };
 
       if (form.middleName.trim()) payload.middleName = form.middleName.trim();
@@ -137,27 +138,51 @@ export const AddClientModal: React.FC<Props> = ({ onClose, onCreated }) => {
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <input className={styles.input} name="firstName" placeholder="Имя *" onChange={handleChange} />
-          <input className={styles.input} name="lastName" placeholder="Фамилия *" onChange={handleChange} />
-          <input className={styles.input} name="middleName" placeholder="Отчество" onChange={handleChange} />
-
           <input
             className={styles.input}
-            name="dateOfBirth"
-            placeholder="Дата рождения (YYYY-MM-DD) *"
+            name="firstName"
+            placeholder="Имя *"
+            value={form.firstName}
             onChange={handleChange}
           />
-
-          <input className={styles.input} name="placeOfBirth" placeholder="Место рождения" onChange={handleChange} />
-
-          {/* Gender */}
-          <select className={styles.input} name="gender" value={form.gender} onChange={handleChange}>
+          <input
+            className={styles.input}
+            name="lastName"
+            placeholder="Фамилия *"
+            value={form.lastName}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="middleName"
+            placeholder="Отчество"
+            value={form.middleName}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            type="date"
+            name="dateOfBirth"
+            value={form.dateOfBirth}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="placeOfBirth"
+            placeholder="Место рождения"
+            value={form.placeOfBirth}
+            onChange={handleChange}
+          />
+          <select
+            className={styles.input}
+            name="gender"
+            value={form.gender}
+            onChange={handleChange}
+          >
             <option value="MALE">Мужской</option>
             <option value="FEMALE">Женский</option>
             <option value="OTHER">Другой</option>
           </select>
-
-          {/* Citizenship */}
           <select
             className={styles.input}
             name="citizenshipStatus"
@@ -170,26 +195,102 @@ export const AddClientModal: React.FC<Props> = ({ onClose, onCreated }) => {
             <option value="REFUGEE">Беженец</option>
             <option value="ASYLUM_SEEKER">Проситель убежища</option>
           </select>
+          <input
+            className={styles.input}
+            name="nationality"
+            placeholder="Национальность"
+            value={form.nationality}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="phone"
+            placeholder="Телефон"
+            value={form.phone}
+            onChange={handleChange}
+          />
 
-          <input className={styles.input} name="nationality" placeholder="Национальность" onChange={handleChange} />
-          <input className={styles.input} name="email" placeholder="Email" onChange={handleChange} />
-          <input className={styles.input} name="phone" placeholder="Телефон" onChange={handleChange} />
+          {/* === Пароль (обязательный) === */}
+          <input
+            className={styles.input}
+            type="password"
+            name="password"
+            placeholder="Пароль *"
+            value={form.password}
+            onChange={handleChange}
+          />
 
           <div className={styles.subtitle}>Адрес (опционально)</div>
-
-          <input className={styles.input} name="addr_country" placeholder="Страна" onChange={handleChange} />
-          <input className={styles.input} name="addr_region" placeholder="Регион" onChange={handleChange} />
-          <input className={styles.input} name="addr_city" placeholder="Город" onChange={handleChange} />
-          <input className={styles.input} name="addr_street" placeholder="Улица" onChange={handleChange} />
-          <input className={styles.input} name="addr_building" placeholder="Дом" onChange={handleChange} />
-          <input className={styles.input} name="addr_apartment" placeholder="Квартира" onChange={handleChange} />
-          <input className={styles.input} name="addr_postalCode" placeholder="Почтовый индекс" onChange={handleChange} />
+          <input
+            className={styles.input}
+            name="addr_country"
+            placeholder="Страна"
+            value={form.primaryAddress.country}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="addr_region"
+            placeholder="Регион"
+            value={form.primaryAddress.region}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="addr_city"
+            placeholder="Город"
+            value={form.primaryAddress.city}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="addr_street"
+            placeholder="Улица"
+            value={form.primaryAddress.street}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="addr_building"
+            placeholder="Дом"
+            value={form.primaryAddress.building}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="addr_apartment"
+            placeholder="Квартира"
+            value={form.primaryAddress.apartment}
+            onChange={handleChange}
+          />
+          <input
+            className={styles.input}
+            name="addr_postalCode"
+            placeholder="Почтовый индекс"
+            value={form.primaryAddress.postalCode}
+            onChange={handleChange}
+          />
 
           <div className={styles.actions}>
-            <button type="button" className={`${styles.btn} ${styles.btnCancel}`} onClick={onClose}>
+            <button
+              type="button"
+              className={`${styles.btn} ${styles.btnCancel}`}
+              onClick={onClose}
+            >
               Отмена
             </button>
-            <button type="submit" className={`${styles.btn} ${styles.btnCreate}`} disabled={loading}>
+            <button
+              type="submit"
+              className={`${styles.btn} ${styles.btnCreate}`}
+              disabled={loading}
+            >
               {loading ? "Сохранение..." : "Создать"}
             </button>
           </div>

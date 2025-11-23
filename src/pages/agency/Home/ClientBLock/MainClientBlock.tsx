@@ -3,19 +3,22 @@ import styles from "./MainClientBlock.module.css";
 import axios from "axios";
 import API_ROUTES from "../../../../config";
 
-export const AgencyHome: React.FC = () => {
+export const AgencyHome: React.FC<{
+  setAdding: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ setAdding }) => {
   const userRaw = localStorage.getItem("userAgency");
   const user = userRaw ? JSON.parse(userRaw) : null;
 
   const [query, setQuery] = useState("");
-  const [searchField, setSearchField] = useState<"firstName" | "lastName" | "dateOfBirth" | "email" | "phone" | "psn">("firstName");
+  const [searchField, setSearchField] = useState<
+    "firstName" | "lastName" | "dateOfBirth" | "email" | "phone" | "psn"
+  >("firstName");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   const validatePSN = (psn: string) => /^[0-9]{10}$/.test(psn);
 
   const handleSearch = async () => {
-
     setLoading(true);
 
     try {
@@ -30,7 +33,9 @@ export const AgencyHome: React.FC = () => {
 
         // GET /persons/:psn
         const res = await axios.get(`${API_ROUTES.BASE_URL}persons/${query}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("jwtAgency")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtAgency")}`,
+          },
         });
         data = [res.data]; // чтобы унифицировать с массивом результатов
       } else {
@@ -39,7 +44,9 @@ export const AgencyHome: React.FC = () => {
 
         const res = await axios.get(`${API_ROUTES.BASE_URL}persons`, {
           params,
-          headers: { Authorization: `Bearer ${localStorage.getItem("jwtAgency")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtAgency")}`,
+          },
         });
         data = res.data;
       }
@@ -90,6 +97,12 @@ export const AgencyHome: React.FC = () => {
             <button className={styles.searchButton} onClick={handleSearch}>
               🔍 Поиск
             </button>
+            <button
+              className={styles.searchButton}
+              onClick={() => setAdding(true)}
+            >
+              Добавить клиента
+            </button>
           </div>
 
           <div className={styles.resultsBlock}>
@@ -98,11 +111,16 @@ export const AgencyHome: React.FC = () => {
             {!loading &&
               results.map((person) => (
                 <div className={styles.resultItem} key={person.psn}>
-                  <span>{person.firstName} {person.lastName}</span>
+                  <span>
+                    {person.firstName} {person.lastName}
+                  </span>
                   <span>{person.psn}</span>
                   <span>{person.email}</span>
                 </div>
               ))}
+          </div>
+          <div>
+            
           </div>
         </>
       ) : (

@@ -75,12 +75,10 @@ export const AgencyHome: React.FC = () => {
                 </p>
               </div>
             )}
-            <div>
-              <button className={styles.addClientButton} onClick={() => setAdding(true)}>Добавить клиента</button>
-            </div>
+            
           </div>
           <div>
-            <MainClientBlock></MainClientBlock>
+            <MainClientBlock setAdding={setAdding}></MainClientBlock>
           </div>
         </div>
       </div>
