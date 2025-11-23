@@ -87,7 +87,7 @@ export const CitizenLogin: React.FC = () => {
             required
           />
           <button
-            className={`${styles.button} ${shared.primaryButton}`}
+            className={`${styles.button}`}
             type="submit"
             disabled={loading}
           >

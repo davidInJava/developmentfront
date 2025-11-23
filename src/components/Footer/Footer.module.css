@@ -20,6 +20,18 @@
 .brand { font-weight: 600; color: #0f172a }
 .links { display: flex; gap: 16px; align-items: center }
 .link { color: #475569; text-decoration: none; font-size: 13px }
+.homeButton {
+  background: #0b5fff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.homeButton:hover { background: #0844c7; }
 .small { color: #94a3b8; font-size: 12px }
 
 @media (max-width: 600px) {

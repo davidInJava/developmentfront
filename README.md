@@ -1,46 +1,137 @@
-# Getting Started with Create React App
+# Портал государственных услуг - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Это frontend-приложение для портала государственных услуг, разработанное на React с TypeScript. Приложение предоставляет интерфейс для граждан и агентств для управления документами и услугами.
 
-## Available Scripts
+## Описание проекта
 
-In the project directory, you can run:
+Приложение состоит из:
+- **Главная страница** (`/main`) - входная точка с навигацией
+- **Гражданский портал** (`/citizen`) - для граждан: регистрация, вход, управление профилем и документами
+- **Агентский портал** (`/agency`) - для агентств: регистрация, вход, управление клиентами
 
-### `npm start`
+### Основные возможности
+- Аутентификация и авторизация
+- Управление профилем пользователя
+- Загрузка, просмотр и удаление документов
+- Адаптивный дизайн для всех устройств
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Требования
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Node.js (версия 16 или выше)
+- npm или yarn
+- Backend API сервер на порту 4000 (необходимо запустить отдельно)
 
-### `npm test`
+## Установка
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Клонируйте репозиторий:
+   ```bash
+   git clone <repository-url>
+   cd frontdev
+   ```
 
-### `npm run build`
+2. Установите зависимости:
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Убедитесь, что backend сервер запущен на `http://localhost:4000`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Запуск
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Режим разработки
+```bash
+npm start
+```
+Приложение будет доступно по адресу [http://localhost:3000](http://localhost:3000)
 
-### `npm run eject`
+### Сборка для продакшена
+```bash
+npm run build
+```
+Собранные файлы будут в папке `build`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Запуск тестов
+```bash
+npm test
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Структура проекта
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+src/
+├── components/          # Переиспользуемые компоненты
+│   ├── Footer/         # Футер с навигацией
+│   ├── EditProfileModal/ # Модальное окно редактирования профиля
+│   └── ...
+├── pages/              # Страницы приложения
+│   ├── Main.tsx        # Главная страница
+│   ├── citizen/        # Страницы для граждан
+│   │   ├── Home/       # Профиль и документы гражданина
+│   │   ├── Login/      # Вход для граждан
+│   │   └── Register/   # Регистрация граждан
+│   └── agency/         # Страницы для агентств
+│       ├── Home/       # Панель агентства
+│       ├── Login/      # Вход для агентств
+│       └── Register/   # Регистрация агентств
+├── config.js           # Конфигурация API
+├── ProtectedRoute.tsx  # Защищенные маршруты
+└── App.tsx             # Основной компонент приложения
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## API Endpoints
 
-## Learn More
+Приложение взаимодействует с backend API по адресу `http://localhost:4000`:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Аутентификация
+- `POST /auth/citizen/login` - Вход гражданина
+- `POST /auth/citizen/register` - Регистрация гражданина
+- `POST /auth/agency/login` - Вход агентства
+- `POST /auth/agency/register` - Регистрация агентства
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Документы (требуется JWT токен)
+- `POST /documents/upload` - Загрузка документа
+- `GET /documents` - Получение списка документов
+- `DELETE /documents/:id` - Удаление документа
+
+### Профиль
+- `GET /person/profile` - Получение профиля
+- `PUT /person/profile` - Обновление профиля
+
+## Использование
+
+1. Запустите backend сервер
+2. Запустите frontend: `npm start`
+3. Перейдите на [http://localhost:3000/main](http://localhost:3000/main)
+4. Выберите тип пользователя (гражданин или агентство)
+5. Зарегистрируйтесь или войдите в систему
+6. Управляйте документами через интерфейс
+
+## Переменные окружения
+
+При необходимости можно настроить URL API в файле `src/config.js`:
+
+```javascript
+const API_ROUTES = {
+  BASE_URL: "http://localhost:4000/",
+};
+```
+
+## Технологии
+
+- **React 19** - Основной фреймворк
+- **TypeScript** - Типизация
+- **React Router** - Маршрутизация
+- **Axios** - HTTP клиент
+- **CSS Modules** - Стилизация
+- **Material-UI Icons** - Иконки
+
+## Разработка
+
+- Используйте `npm start` для разработки с hot-reload
+- Следуйте структуре компонентов и стилей
+- Добавляйте новые страницы в соответствующие папки
+- Тестируйте на разных размерах экранов
+
+## Поддержка
+
+Для вопросов и поддержки обращайтесь к разработчикам проекта.

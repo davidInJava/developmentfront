@@ -5,6 +5,7 @@
   justify-content: center;
   background: #f0f9ff;
 }
+
 .card {
   width: 360px;
   padding: 26px;
@@ -12,31 +13,47 @@
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(10, 20, 40, 0.06);
 }
+
 .title {
   margin: 0 0 10px 0;
   color: #0f172a;
 }
+
 .form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 .input {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #e6eef8;
 }
+
+/* ---- HOVER ДЛЯ КНОПКИ ---- */
+
 .button {
   padding: 10px;
   border-radius: 8px;
   background: #0b5fff;
   color: white;
   border: none;
+  cursor: pointer;            /* <-- важное */
+  transition: 0.2s ease;      /* плавный hover */
 }
+
+.button:hover {
+  background: #0046d6;        /* темнее */
+  transform: translateY(-2px); /* лёгкое поднятие */
+  box-shadow: 0 4px 12px rgba(0, 70, 214, 0.3);
+}
+
 .meta {
   margin-top: 10px;
   font-size: 13px;
 }
+
 .link {
   color: #0b5fff;
   text-decoration: none;
