@@ -4,6 +4,7 @@ import styles from "./AgencyHome.module.css";
 import shared from "../../../styles/Shared.module.css";
 import MainClientBlock from "./ClientBLock/MainClientBlock";
 import AddClientModal from "../../../components/AddClientModal/AddClientModal";
+import ClientRequests from "../../../components/ClientRequests/ClientRequests";
 import { useState } from "react";
 
 export const AgencyHome: React.FC = () => {
@@ -79,6 +80,9 @@ export const AgencyHome: React.FC = () => {
           </div>
           <div>
             <MainClientBlock setAdding={setAdding}></MainClientBlock>
+          </div>
+          <div style={{ marginTop: 12 }}>
+            <ClientRequests />
           </div>
         </div>
       </div>

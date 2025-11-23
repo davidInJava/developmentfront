@@ -1,0 +1,114 @@
+.container {
+  border: 1px solid #e6eef7;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+}
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.title {
+  margin: 0;
+  font-size: 15px;
+  color: #0f172a;
+}
+.controls {
+  display: flex;
+  gap: 8px;
+}
+.refresh {
+  background: #eef2ff;
+  border: 1px solid #dbeafe;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.error {
+  color: #b91c1c;
+  margin-bottom: 8px;
+}
+.list {
+  max-height: 300px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.empty {
+  color: #64748b;
+  padding: 8px;
+}
+.item {
+  border: 1px solid #eef2f7;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fbfdff;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+.mono {
+  background: #f8fafc;
+  padding: 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: 8px;
+  align-items: center;
+}
+.chip {
+  background: #eef6ff;
+  border: 1px solid #dbeafe;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #0f172a;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chipLabel {
+  color: #0b5fff;
+  font-weight: 600;
+}
+.chipValue {
+  color: #0f172a;
+  opacity: 0.95;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+.approveBtn {
+  background: #10b981;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.rejectBtn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}

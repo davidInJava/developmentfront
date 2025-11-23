@@ -33,15 +33,6 @@ export const CitizenHome: React.FC = () => {
     setIsEditOpen(true);
   };
 
-  const handleSaveChanges = (changes: Array<{ field: string; oldValue: any; newValue: any }>) => {
-    const updated = { ...(user || {}) };
-    changes.forEach(ch => {
-      updated[ch.field] = ch.newValue;
-    });
-    setUser(updated);
-    localStorage.setItem('citizenUser', JSON.stringify(updated));
-    setIsEditOpen(false);
-  };
 
   return (
     <div className={styles.container}>
@@ -173,7 +164,6 @@ export const CitizenHome: React.FC = () => {
           isOpen={isEditOpen}
           onClose={() => setIsEditOpen(false)}
           user={user}
-          onSave={handleSaveChanges}
         />
       )}
     </div>

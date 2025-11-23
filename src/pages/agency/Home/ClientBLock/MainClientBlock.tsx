@@ -31,7 +31,6 @@ export const AgencyHome: React.FC<{
           return;
         }
 
-        // GET /persons/:psn
         const res = await axios.get(`${API_ROUTES.BASE_URL}persons/${query}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwtAgency")}`,
@@ -95,7 +94,7 @@ export const AgencyHome: React.FC<{
             </select>
 
             <button className={styles.searchButton} onClick={handleSearch}>
-              🔍 Поиск
+              🔍
             </button>
             <button
               className={styles.searchButton}

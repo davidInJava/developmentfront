@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "./EditProfileModal.module.css";
+import axios from "axios";
+import API_ROUTES from "../../config";
 
 type ChangeRow = {
   id: number;
@@ -11,7 +13,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   user: any;
-  onSave: (
+  onSave?: (
     changes: Array<{ field: string; oldValue: any; newValue: any }>
   ) => void;
 };
@@ -103,7 +105,7 @@ export const EditProfileModal: React.FC<Props> = ({
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const validRows = rows.filter(
       (r) => r.field && r.newValue !== undefined && r.newValue !== ""
     );
@@ -146,8 +148,33 @@ export const EditProfileModal: React.FC<Props> = ({
     }
 
     if (changes.length === 0) return;
-    onSave(changes);
-    setRows([{ id: Date.now() }]);
+    try {
+      const token = localStorage.getItem("jwtCitizen");
+      const edit: Record<string, any> = {};
+      validRows.forEach(r => { if (r.field) edit[r.field] = r.newValue; });
+      const url = `${API_ROUTES.BASE_URL}citizen/change-request`;
+      await axios.post(
+        url,
+        { psn: user.psn, edit},
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        }
+      );
+      alert("Заявка на изменение отправлена.");
+      setRows([{ id: Date.now() }]);
+      onClose();
+    } catch (err: any) {
+      console.error(err?.response || err);
+      const status = err?.response?.status;
+      const data = err?.response?.data;
+      if (status === 409) {
+        alert(data?.message || 'Уже существует активная заявка на изменение');
+      } else if (status === 400) {
+        alert(data?.message || 'Некорректные данные запроса');
+      } else {
+        alert('Ошибка при отправке заявки: ' + (err?.message || 'unknown'));
+      }
+    }
   };
   useEffect(() => {
     const prev = document.body.style.overflow;
